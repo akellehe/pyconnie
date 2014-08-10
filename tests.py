@@ -125,11 +125,12 @@ class TestConnie(ConnieTest):
             bounds = [(0, 1) for x in A_guess[0]]
             bounds[0] = (0,0)
 
-            fmin_tnc(func=convex_formulation,
+            print fmin_tnc(func=convex_formulation,
                      x0=numpy.array(A_guess),
-                     args=(0, D),
+                     args=(1, D),
                      bounds=bounds,
                      approx_grad=True)
+            print A_true
         except Exception, e:
             self.assertTrue(False, "Minimization function raised an exception.")
 

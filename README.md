@@ -6,12 +6,18 @@ You can find the paper here: http://arxiv.org/abs/1010.5504
 
 ## Installation
 
-This package requires `numpy==1.8.1` and `scipy==0.14.0`. 
+This package requires `numpy==1.8.1` and `scipy==0.14.0`. You should have those installed before you get started. 
 
-You can install using setup.py like 
+You can install `pyconnie` using setup.py like 
 
 ```
 python setup.py install
+```
+
+Or from the Python Package Index like
+
+```
+pip install pyconnie
 ```
 
 You can run the tests with
