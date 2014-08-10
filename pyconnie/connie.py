@@ -22,6 +22,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 """
 
+__all__ = ['max_likelihood_formulation', 'convex_formulation']
+
 import math
 
 """
@@ -58,6 +60,18 @@ def outer_sum_over_prob_i_not_infected(D, i, A):
     return total
 
 def max_likelihood_formulation(D, i, A):
+    """
+    This is the max-likelihood formulation, L(A; D). It is not
+    convex and therefore difficult to solve. You should really
+    use the convex formulation.
+
+    :param diffusion.Diffusions D: The set of diffusions we've observed, from which we're trying to deduce Ai
+    :param int i: The node we're solving for the incoming edges to.
+    :param list|numpy.array Ai: An input column of Ai. Should be 1xN, where N is the number of unique nodes in D
+
+    :returns: The likelihood of this particular guess for column i of the Adjacency matrix given the observed cascades, D.
+    :rtype: float
+    """
     return outer_sum_over_prob_i_not_infected(D, i, A) * outer_sum_over_prob_i_infected(D, i, A)
 
 def to_minimize(A, i, D):
@@ -121,5 +135,18 @@ def outer_sum_over_Bji_hat(D, A, i):
     return total
 
 def convex_formulation(Ai, i=0, D=None, rho=0.0):
+    """
+    The convex formulation of the log-likelihood minimization problem.
+    By passing A single column of A, Ai, we can minimize this function
+    to arrive at the most likely column given an input set of cascades.
+
+    :param list|numpy.array Ai: An input column of Ai. Should be 1xN, where N is the number of unique nodes in D
+    :param int i: The node we're solving for the incoming edges to.
+    :param diffusion.Diffusions D: The set of diffusions we've observed, from which we're trying to deduce Ai
+    :param float rho: A penalty term for toggling between precision and recall. Solving with rho > 0 is very accurate for discovering edges. rho == 0 is much more precise for edge weights.
+
+    :returns: The log-likelihood in the convex formulation of this particular guess for column i of the Adjacency matrix given the observed cascades, D.
+    :rtype: float
+    """
     return outer_sum_over_minus_gamma_hat(D, Ai, i) - outer_sum_over_Bji_hat(D, Ai, i) + penalty_term(Ai, i, rho)
 

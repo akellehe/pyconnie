@@ -6,14 +6,14 @@ import numpy
 from diffusion import Diffusions
 from diffusion import Diffusion
 
-from connie import prob_i_never_infected
-from connie import prob_i_inf_at_ti
-from connie import minus_gamma_hat
-from connie import inner_sum_over_Bji_hat
-from connie import outer_sum_over_minus_gamma_hat
-from connie import outer_sum_over_Bji_hat
-from connie import convex_formulation
-from connie import to_minimize
+from pyconnie import prob_i_never_infected
+from pyconnie import prob_i_inf_at_ti
+from pyconnie import minus_gamma_hat
+from pyconnie import inner_sum_over_Bji_hat
+from pyconnie import outer_sum_over_minus_gamma_hat
+from pyconnie import outer_sum_over_Bji_hat
+from pyconnie import convex_formulation
+from pyconnie import to_minimize
 
 class ConnieTest(unittest.TestCase):
     def setUp(self):
