@@ -3,17 +3,17 @@ import unittest
 from scipy.optimize import fmin_tnc
 import numpy
 
-from diffusion import Diffusions
-from diffusion import Diffusion
+from pyconnie.diffusion import Diffusions
+from pyconnie.diffusion import Diffusion
 
-from pyconnie import prob_i_never_infected
-from pyconnie import prob_i_inf_at_ti
-from pyconnie import minus_gamma_hat
-from pyconnie import inner_sum_over_Bji_hat
-from pyconnie import outer_sum_over_minus_gamma_hat
-from pyconnie import outer_sum_over_Bji_hat
-from pyconnie import convex_formulation
-from pyconnie import to_minimize
+from pyconnie.connie import prob_i_never_infected
+from pyconnie.connie import prob_i_inf_at_ti
+from pyconnie.connie import minus_gamma_hat
+from pyconnie.connie import inner_sum_over_Bji_hat
+from pyconnie.connie import outer_sum_over_minus_gamma_hat
+from pyconnie.connie import outer_sum_over_Bji_hat
+from pyconnie.connie import convex_formulation
+from pyconnie.connie import to_minimize
 
 class ConnieTest(unittest.TestCase):
     def setUp(self):
