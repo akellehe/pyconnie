@@ -1,9 +1,0 @@
-setup.py
-pyconnie/__init__.py
-pyconnie/connie.py
-pyconnie/diffusion.py
-pyconnie.egg-info/PKG-INFO
-pyconnie.egg-info/SOURCES.txt
-pyconnie.egg-info/dependency_links.txt
-pyconnie.egg-info/requires.txt
-pyconnie.egg-info/top_level.txt
