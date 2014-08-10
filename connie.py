@@ -97,6 +97,17 @@ def inner_sum_over_Bji_hat(c, i, A):
                 total += float("Inf")
     return total
 
+def penalty_term(A, i, rho):
+    total = 0.0
+    for j, Aij in enumerate(A):
+        if j == i:
+            continue
+        try:
+            total += math.exp(-math.log(1.0 - Aij))
+        except ValueError, e:
+            total += float("Inf")
+    return rho * total
+
 def outer_sum_over_minus_gamma_hat(D, A, i):
     total = 0.0
     for c in D.where_node_is_infected(i):
@@ -109,6 +120,6 @@ def outer_sum_over_Bji_hat(D, A, i):
         total += inner_sum_over_Bji_hat(c, i, A)
     return total
 
-def convex_formulation(Ai, i=0, D=None):
-    return outer_sum_over_minus_gamma_hat(D, Ai, i) - outer_sum_over_Bji_hat(D, Ai, i)
+def convex_formulation(Ai, i=0, D=None, rho=0.0):
+    return outer_sum_over_minus_gamma_hat(D, Ai, i) - outer_sum_over_Bji_hat(D, Ai, i) + penalty_term(Ai, i, rho)
 
