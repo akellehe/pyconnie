@@ -29,14 +29,35 @@ from collections import deque
 class Diffusions(object):
 
     def __init__(self, diffusions=None):
+        """
+        Serves as a wrapper over a list of diffusions. Makes it more idiomatic to iterate over them.
+
+        :param list(diffusion.Diffusion) diffusions: A list of diffusions to wrap.
+        """
         self.diffusions = diffusions
 
     def where_node_is_infected(self, node):
+        """
+        Returns a generator over the diffusions where `node` was infected.
+
+        :param int node: The node for which we want to iterate over the diffusions where it was infected.
+
+        :returns: A generator over the correct set of diffusions
+        :rtype: generator
+        """
         for d in self.diffusions:
             if d.is_infected(node):
                 yield d
 
     def where_node_is_never_infected(self, node):
+        """
+        Returns a generator over the diffusions where `node` was never infected.
+
+        :param int node: The node for which we want to iterate over the diffusions where it was never infected.
+
+        :returns: A generator over the correct set of diffusions
+        :rtype: generator
+        """
         for d in self.diffusions:
             if d.is_never_infected(node):
                 yield d
@@ -49,6 +70,15 @@ class Diffusion(object):
     _lambda = 1.0
    
     def __init__(self, A, cascade=None):
+        """
+        Represents a cascade through the latent network represented by A. You can either pass A or both A and cascade.
+
+        If you don't pass a cascade; one will be generated.
+
+        :param list(list)|numpy.array A: An nxn adjacency matrix from which to generate a diffusion.
+        :param list(float) cascade: A list of infection times where the indicies are the node names.
+
+        """
         if cascade:
             self.times = cascade
             self.__length = len(cascade)
@@ -71,29 +101,75 @@ class Diffusion(object):
         return self.__length
 
     def is_infected_before(self, a, b):
+        """
+        Determines whether a was infected before b in this diffusion. If 
+        either a or b was never infected; returns False.
+
+        :param int a: The node infected first (when true)
+        :param int b: The node infected later than a
+
+        :returns: True if a was, in fact, infected before b
+        :rtype: bool
+        """
         return all([self.times[a] < self.times[b],
                     self.times[a] != -1,
                     self.times[b] != -1])
 
     def is_infected(self, node):
+        """
+        Determines if `node` is infected in this diffusion.
+
+        :param int node: The node in which we're interested
+
+        :returns: True if `node` was infected in this diffusion. False otherwise.
+        :rtype: bool
+        """
         return self.times[node] > -1
 
     def is_never_infected(self, node):
-        return self.times[node] == -1
+        """
+        Determines if `node` is never infected in this diffusion.
 
-    def tau(self, node):
-        return self.times[node]
+        :param int node: The node in which we're interested.
+
+        :returns: True if `node` was never infected in this diffusion. False otherwise.
+        :rtype: bool
+        """
+        return self.times[node] == -1
 
     def sample(self):
         return random.expovariate(lambd=self._lambda)
 
     def e(self, x):
+        """
+        Returns the value of the exponential distribution at x.
+
+        lambda * e^(-x*lambda)
+
+        :param float x: The domain value to return the 
+            associated probability in the exponential distribution.
+
+        :returns: The associated probability for x
+        :rtype: float
+        """
         return self._lambda * math.exp(-x * self._lambda)
 
     def w(self, ti, tj):
+        """
+        Returns the probability of node i having been infected by node j based on timing.
+
+        :param float ti: The time node i was infected.
+        :param float tj: The time node j was infected.
+
+        :returns: The probability in the exponential distribution associated with x=(ti - tj)
+        :rtype: float
+        """
         return self.e(ti - tj)
 
     def propagate(self):
+        """
+        Propagates infections through the graph with probabilities of Aji and w(t) 
+        """
         while self.to_propagate:
             infected = self.to_propagate.popleft()
             parent_time = self.times[infected]
