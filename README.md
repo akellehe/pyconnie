@@ -4,6 +4,22 @@ pyconnie is an implementation of Seth A. Myers and Jure Leskovec's approach to i
 
 You can find the paper here: http://arxiv.org/abs/1010.5504
 
+## Installation
+
+This package requires `numpy==1.8.1` and `scipy==0.14.0`. 
+
+You can install using setup.py like 
+
+```
+python setup.py install
+```
+
+You can run the tests with
+
+```
+python setup.py test
+```
+
 ## Example
 
 The example below solves for the 0th column of the adjacency matrix, A with high-precision and low recall.
