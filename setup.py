@@ -17,7 +17,7 @@ setup(
     long_description='An implementation of Leskovec et. al\'s algorithm for inferring latent social networks while exploiting the convexity of the problem',
     test_suite='tests',
     install_requires=[
-        'numpy==1.8.2',
+        'numpy==1.22.0',
         'scipy==0.14.0'
     ],
     url='http://www.github.com/akellehe/pyconnie',
