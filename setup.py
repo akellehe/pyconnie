@@ -18,7 +18,7 @@ setup(
     test_suite='tests',
     install_requires=[
         'numpy==1.8.2',
-        'scipy==0.14.0'
+        'scipy==1.10.0'
     ],
     url='http://www.github.com/akellehe/pyconnie',
     classifiers=[
